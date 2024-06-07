@@ -12,6 +12,7 @@ const ContactsList: React.FC = () => {
     <SectionList
       sections={contacts}
       stickySectionHeadersEnabled
+      showsVerticalScrollIndicator={false}
       keyExtractor={(item, index) => `${item.id}-${index}`}
       renderSectionHeader={({ section }) => {
         return <SectionHeader section={section} />;

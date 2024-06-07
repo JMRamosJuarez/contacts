@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useContactsState } from '@contacts/presentation/redux/selectors';
 import ContactsList from '@contacts/presentation/screens/Main/List';
+import ContactsListSkeleton from '@contacts/presentation/screens/Main/Skeleton';
 
 const ContactsPage: React.FC = () => {
   const state = useContactsState();
@@ -9,7 +10,7 @@ const ContactsPage: React.FC = () => {
   switch (state) {
     case 'waiting':
     case 'loading':
-      return <></>;
+      return <ContactsListSkeleton />;
     case 'empty':
       return <></>;
     case 'success':
