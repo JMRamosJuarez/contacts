@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ContactListItem from '@contacts/presentation/components/ContactListItem';
 import { useContacts } from '@contacts/presentation/redux/selectors';
 import { SectionList, Text, View } from 'react-native';
 
@@ -28,14 +29,7 @@ const ContactsList: React.FC = () => {
         );
       }}
       renderItem={({ item }) => {
-        return (
-          <View style={{ paddingHorizontal: 24, paddingVertical: 12 }}>
-            <Text>{item.name}</Text>
-            {item.phones.map(phone => {
-              return <Text key={phone}>{phone}</Text>;
-            })}
-          </View>
-        );
+        return <ContactListItem contact={item} />;
       }}
       ItemSeparatorComponent={() => (
         <View style={{ height: 1, backgroundColor: 'gray' }} />
