@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useContacts } from '@contacts/presentation/redux/selectors';
-import { SectionList, Text } from 'react-native';
+import { SectionList, Text, View } from 'react-native';
 
 const ContactsList: React.FC = () => {
   const contacts = useContacts();
@@ -29,11 +29,17 @@ const ContactsList: React.FC = () => {
       }}
       renderItem={({ item }) => {
         return (
-          <Text style={{ paddingHorizontal: 24, paddingVertical: 12 }}>
-            {item.name}
-          </Text>
+          <View style={{ paddingHorizontal: 24, paddingVertical: 12 }}>
+            <Text>{item.name}</Text>
+            {item.phones.map(phone => {
+              return <Text key={phone}>{phone}</Text>;
+            })}
+          </View>
         );
       }}
+      ItemSeparatorComponent={() => (
+        <View style={{ height: 1, backgroundColor: 'gray' }} />
+      )}
     />
   );
 };

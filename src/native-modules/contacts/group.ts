@@ -1,4 +1,4 @@
-import Contact from './contact';
+import Contact from '@native-modules/contacts/contact';
 
 type ContactsGroup = {
   readonly title: string;

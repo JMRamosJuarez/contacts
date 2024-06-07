@@ -1,7 +1,7 @@
+import Contact from '@native-modules/contacts/contact';
+import ContactsRequest from '@native-modules/contacts/request';
 import { NativeModules, Platform } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
-
-import Contact from './contact';
 
 const { ContactsModule } = NativeModules;
 
@@ -12,7 +12,7 @@ export const CONTACT_PERMISSIONS = Platform.select({
 });
 
 interface ContactsInterface {
-  getContacts(): Promise<Contact[]>;
+  getContacts(request: ContactsRequest): Promise<Contact[]>;
 }
 
 export default ContactsModule as ContactsInterface;

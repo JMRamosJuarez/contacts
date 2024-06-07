@@ -3,6 +3,7 @@ import { createAppAsyncThunk } from '@core/presentation/redux/thunks';
 import ContactsModule, { CONTACT_PERMISSIONS } from '@native-modules/contacts';
 import Contact from '@native-modules/contacts/contact';
 import ContactsGroup from '@native-modules/contacts/group';
+import ContactsRequest from '@native-modules/contacts/request';
 import {
   check as checkPermissions,
   request as requestPermissions,
@@ -32,19 +33,19 @@ const groupContacts = (contacts: Contact[]): ContactsGroup[] => {
 };
 
 export const getContactsAsynkThunk = createAppAsyncThunk<
-  undefined,
+  ContactsRequest,
   ContactsGroup[]
->('/get_contacts', async _ => {
+>('/get_contacts', async request => {
   const status = await checkPermissions(CONTACT_PERMISSIONS);
   switch (status) {
     case 'granted': {
-      const contacts = await ContactsModule.getContacts();
+      const contacts = await ContactsModule.getContacts(request);
       return groupContacts(contacts);
     }
     case 'denied': {
       const result = await requestPermissions(CONTACT_PERMISSIONS);
       if (result === 'granted') {
-        const contacts = await ContactsModule.getContacts();
+        const contacts = await ContactsModule.getContacts(request);
         return groupContacts(contacts);
       }
       throw new AppError(AppErrorType.PERMISSION_DENIED);

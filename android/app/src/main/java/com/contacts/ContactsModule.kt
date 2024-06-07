@@ -1,21 +1,12 @@
 package com.contacts
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.provider.ContactsContract
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.facebook.react.ReactActivity
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.WritableArray
-import com.facebook.react.bridge.WritableMap
-import com.facebook.react.modules.core.PermissionListener
+import com.facebook.react.bridge.ReadableMap
 
 class ContactsModule(private val context: ReactApplicationContext): ReactContextBaseJavaModule(context) {
 
@@ -29,15 +20,13 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
         )
     }
 
-    private val selection: String by lazy {
-        "${ContactsContract.Data.MIMETYPE} = ? OR ${ContactsContract.Data.MIMETYPE} = ? OR ${ContactsContract.Data.MIMETYPE} = ?"
+    private val defaultSelection: String by lazy {
+        "${ContactsContract.Data.MIMETYPE} = ?"
     }
 
-    private val args: Array<String> by lazy {
+    private val defaultArgs: Array<String> by lazy {
         arrayOf(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
-                ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE,
-                ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
         )
     }
 
@@ -47,14 +36,25 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
     }
 
     @ReactMethod
-    fun getContacts(promise: Promise) {
+    fun getContacts(request: ReadableMap, promise: Promise) {
         try {
+
+            val query = request.getString("query")?.trim() ?: "";
+
+            val searchBy = "(${ContactsContract.Data.DISPLAY_NAME} LIKE ? OR ${ContactsContract.CommonDataKinds.Phone.NUMBER} LIKE ?)"
+
+            val selection =
+                    if (query.isNotEmpty())
+                        "${this.defaultSelection} AND $searchBy"
+                    else this.defaultSelection
+
+            val args = if (query.isNotEmpty()) this.defaultArgs.plus(arrayOf("%${query}%", "%${query}%")) else this.defaultArgs
 
             val contactsCursor = this.context.contentResolver.query(
                     ContactsContract.Data.CONTENT_URI,
                     this.projection,
-                    this.selection,
-                    this.args,
+                    selection,
+                    args,
                     "${ContactsContract.Data.DISPLAY_NAME} ASC"
             )
 
@@ -80,7 +80,7 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
 
             val contacts = Arguments.createArray();
 
-            models.groupBy { it.id }.map { (id, items) ->
+            models.groupBy { it.id }.forEach { (id, items) ->
                 val current = items.first();
                 val phones = items.mapNotNull { it.phone }
                 val contact = Contact(id, current.photo, current.name, current.email, phones)
