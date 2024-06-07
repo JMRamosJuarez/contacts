@@ -6,9 +6,12 @@ import {
   useGetContactsAction,
   useSearchContactsAction,
 } from '@contacts/presentation/redux/actions';
+import { useAppTheme } from '@theme/index';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 
 const ContactsSearchInput: React.FC = () => {
+  const { colors } = useAppTheme();
+
   const input = useRef<TextInput>(null);
 
   const [query, updateQuery] = useState<string>('');
@@ -26,13 +29,21 @@ const ContactsSearchInput: React.FC = () => {
   }, [query, search]);
 
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+      }}>
       <SearchIcon style={{ margin: 12 }} stroke={'gray'} />
       <TextInput
-        style={{ flex: 1, paddingVertical: 8, fontSize: 16 }}
+        style={[
+          { flex: 1, paddingVertical: 8, fontSize: 16 },
+          { color: colors.primary['50'] },
+        ]}
         blurOnSubmit
         returnKeyType={'search'}
         placeholder={'Search contacts'}
+        placeholderTextColor={colors.primary['500']}
         value={query}
         onChangeText={text => updateQuery(text)}
       />

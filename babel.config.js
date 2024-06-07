@@ -19,6 +19,7 @@ module.exports = {
         alias: {
           '@core': './src/core',
           '@assets': './src/assets',
+          '@theme': './src/theme',
           '@contacts': './src/contacts',
           '@native-modules': './src/native-modules',
         },

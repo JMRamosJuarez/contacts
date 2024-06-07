@@ -3,12 +3,21 @@ import React from 'react';
 import ContactDetailScreen from '@contacts/presentation/screens/Detail';
 import ContactsScreen from '@contacts/presentation/screens/Main';
 import { AppNavigationStack } from '@core/presentation/navigation/config';
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators } from '@react-navigation/stack';
+import { useAppTheme } from '@theme/index';
 
 const AppNavigator: React.FC = () => {
+  const { colors } = useAppTheme();
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={{
+        ...DefaultTheme,
+        colors: {
+          ...DefaultTheme.colors,
+          background: colors.primary['900'],
+        },
+      }}>
       <AppNavigationStack.Navigator
         initialRouteName={'Main'}
         screenOptions={{
