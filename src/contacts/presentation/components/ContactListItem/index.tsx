@@ -24,9 +24,7 @@ const ContactListItem: React.FC<{
       />
       <View style={{ flex: 1, marginHorizontal: 8 }}>
         <Text>{contact.name}</Text>
-        {contact.phones.map(phone => {
-          return <Text key={phone}>{phone}</Text>;
-        })}
+        {contact.phones.length > 0 && <Text>{contact.phones[0]}</Text>}
       </View>
     </View>
   );
