@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import ClearInputIcon from '@assets/svg/clear-input.svg';
 import SearchIcon from '@assets/svg/search.svg';
+import { styles } from '@contacts/presentation/components/SearchInput/styles';
 import {
   useGetContactsAction,
   useSearchContactsAction,
@@ -29,17 +30,10 @@ const ContactsSearchInput: React.FC = () => {
   }, [query, search]);
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}>
-      <SearchIcon style={{ margin: 12 }} stroke={'gray'} />
+    <View style={styles.container}>
+      <SearchIcon style={styles.searchIcon} stroke={'gray'} />
       <TextInput
-        style={[
-          { flex: 1, paddingVertical: 8, fontSize: 16 },
-          { color: colors.primary['50'] },
-        ]}
+        style={[styles.input, { color: colors.primary['50'] }]}
         blurOnSubmit
         returnKeyType={'search'}
         placeholder={'Search contacts'}
@@ -49,7 +43,7 @@ const ContactsSearchInput: React.FC = () => {
       />
       <TouchableOpacity
         disabled={query.length < 3}
-        style={[{ padding: 12 }, { opacity }]}
+        style={[styles.clear, { opacity }]}
         onPress={() => {
           input.current?.blur();
           updateQuery('');

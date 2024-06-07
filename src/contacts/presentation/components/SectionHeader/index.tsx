@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { styles } from '@contacts/presentation/components/SectionHeader/styles';
 import Contact from '@native-modules/contacts/contact';
 import ContactsGroup from '@native-modules/contacts/group';
 import { useAppTheme } from '@theme/index';
@@ -12,12 +13,7 @@ const SectionHeader: React.FC<{
   return (
     <Text
       style={[
-        {
-          paddingHorizontal: 24,
-          paddingVertical: 6,
-          fontWeight: 'bold',
-          textAlign: 'right',
-        },
+        styles.container,
         {
           backgroundColor: colors.primary['500'],
           color: colors.primary['900'],

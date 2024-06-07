@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { styles } from '@contacts/presentation/components/ContactListItem/styles';
 import Contact from '@native-modules/contacts/contact';
 import { useAppTheme } from '@theme/index';
 import { Image, Text, View } from 'react-native';
@@ -11,17 +12,9 @@ const ContactListItem: React.FC<{
 
   return (
     <View
-      style={[
-        {
-          flexDirection: 'row',
-          paddingHorizontal: 24,
-          paddingVertical: 12,
-          marginVertical: 0.5,
-        },
-        { backgroundColor: colors.primary['800'] },
-      ]}>
+      style={[styles.container, { backgroundColor: colors.primary['800'] }]}>
       <Image
-        style={{ width: 40, height: 40, borderRadius: 40 }}
+        style={styles.img}
         source={
           contact.photo
             ? { uri: contact.photo }
@@ -29,10 +22,12 @@ const ContactListItem: React.FC<{
         }
         defaultSource={require('@assets/imgs/contact-placeholder.png')}
       />
-      <View style={{ flex: 1, marginHorizontal: 8 }}>
-        <Text style={[{ color: colors.primary['50'] }]}>{contact.name}</Text>
+      <View style={styles.data}>
+        <Text style={[styles.name, { color: colors.primary['50'] }]}>
+          {contact.name}
+        </Text>
         {contact.phones.length > 0 && (
-          <Text style={[{ color: colors.primary['50'] }]}>
+          <Text style={[styles.phone, { color: colors.primary['50'] }]}>
             {contact.phones[0]}
           </Text>
         )}
