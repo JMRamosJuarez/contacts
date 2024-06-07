@@ -12,23 +12,12 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
 
     private val projection: Array<out String> by lazy {
         arrayOf(
-                ContactsContract.Data.CONTACT_ID,
-                ContactsContract.CommonDataKinds.Photo.PHOTO_URI,
-                ContactsContract.Data.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+                ContactsContract.CommonDataKinds.Phone.PHOTO_URI,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
         )
     }
-
-    private val defaultSelection: String by lazy {
-        "${ContactsContract.Data.MIMETYPE} = ?"
-    }
-
-    private val defaultArgs: Array<String> by lazy {
-        arrayOf(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
-        )
-    }
-
 
     override fun getName(): String {
         return "ContactsModule"
@@ -40,29 +29,29 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
 
             val query = request.getString("query")?.trim() ?: "";
 
-            val searchBy = "(${ContactsContract.Data.DISPLAY_NAME} LIKE ? OR ${ContactsContract.CommonDataKinds.Phone.NUMBER} LIKE ?)"
+            val searchBy = "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ? OR ${ContactsContract.CommonDataKinds.Phone.NUMBER} LIKE ?"
 
             val selection =
                     if (query.isNotEmpty())
-                        "${this.defaultSelection} AND $searchBy"
-                    else this.defaultSelection
+                        searchBy
+                    else null
 
-            val args = if (query.isNotEmpty()) this.defaultArgs.plus(arrayOf("%${query}%", "%${query}%")) else this.defaultArgs
+            val args = if (query.isNotEmpty()) arrayOf("%${query}%", "%${query}%") else null
 
             val contactsCursor = this.context.contentResolver.query(
-                    ContactsContract.Data.CONTENT_URI,
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                     this.projection,
                     selection,
                     args,
-                    "${ContactsContract.Data.DISPLAY_NAME} ASC"
+                    "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} ASC"
             )
 
             val models = mutableListOf<ContactModel>()
 
             contactsCursor?.use { cursor ->
-                val idIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
-                val photoUriIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI)
-                val nameIndex = cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME)
+                val idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
+                val photoUriIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)
+                val nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
                 val phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
 
                 while (cursor.moveToNext()) {
