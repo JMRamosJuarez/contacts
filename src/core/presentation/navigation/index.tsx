@@ -1,9 +1,10 @@
 import React from 'react';
 
+import ContactDetailScreen from '@contacts/presentation/screens/Detail';
+import ContactsScreen from '@contacts/presentation/screens/Main';
 import { AppNavigationStack } from '@core/presentation/navigation/config';
 import { NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import { View } from 'react-native';
 
 const AppNavigator: React.FC = () => {
   return (
@@ -18,13 +19,13 @@ const AppNavigator: React.FC = () => {
             },
           }),
         }}>
-        <AppNavigationStack.Screen name={'Main'} component={View} />
+        <AppNavigationStack.Screen name={'Main'} component={ContactsScreen} />
         <AppNavigationStack.Screen
           name={'ContactDetail'}
           options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
-          component={View}
+          component={ContactDetailScreen}
         />
       </AppNavigationStack.Navigator>
     </NavigationContainer>

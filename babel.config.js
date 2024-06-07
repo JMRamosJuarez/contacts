@@ -18,6 +18,7 @@ module.exports = {
         ],
         alias: {
           '@core': './src/core',
+          '@contacts': './src/contacts',
           '@native-modules': './src/native-modules',
         },
       },
