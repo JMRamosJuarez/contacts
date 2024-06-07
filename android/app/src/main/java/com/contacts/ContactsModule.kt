@@ -15,7 +15,6 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
                 ContactsContract.Data.CONTACT_ID,
                 ContactsContract.CommonDataKinds.Photo.PHOTO_URI,
                 ContactsContract.Data.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
         )
     }
@@ -64,16 +63,14 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
                 val idIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
                 val photoUriIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI)
                 val nameIndex = cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME)
-                val emailIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)
                 val phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
 
                 while (cursor.moveToNext()) {
                     val id = cursor.getInt(idIndex)
                     val photo = cursor.getString(photoUriIndex)
                     val name = cursor.getString(nameIndex)
-                    val email = cursor.getString(emailIndex)
                     val phone = cursor.getString(phoneIndex)
-                    val contact = ContactModel(id, photo, name, email, phone)
+                    val contact = ContactModel(id, photo, name, phone)
                     models.add(contact)
                 }
             }
@@ -83,7 +80,7 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
             models.groupBy { it.id }.forEach { (id, items) ->
                 val current = items.first();
                 val phones = items.mapNotNull { it.phone }
-                val contact = Contact(id, current.photo, current.name, current.email, phones)
+                val contact = Contact(id, current.photo, current.name, phones)
                 contacts.pushMap(contact.toWritableMap())
             }
 
