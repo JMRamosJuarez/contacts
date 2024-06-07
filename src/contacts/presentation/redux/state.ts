@@ -1,8 +1,8 @@
 import { BaseState } from '@core/presentation/redux/state';
-import Contact from '@native-modules/contacts/contact';
+import ContactsGroup from '@native-modules/contacts/group';
 
 export type ContactsState = {
-  contacts: BaseState<Contact[]>;
+  contacts: BaseState<ContactsGroup[]>;
 };
 
 export const initialState: ContactsState = {
