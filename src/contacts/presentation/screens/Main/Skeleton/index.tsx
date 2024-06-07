@@ -1,17 +1,31 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { useGetItemLayout } from '@contacts/presentation/components/ContactListItem';
 import ContactListItemSkeleton from '@contacts/presentation/components/ContactListItemSkeleton';
 import SectionHeader from '@contacts/presentation/components/SectionHeader';
-import { SectionList } from 'react-native';
+import Contact from '@native-modules/contacts/contact';
+import ContactsGroup from '@native-modules/contacts/group';
+import { SectionList, SectionListData } from 'react-native';
 
 const ContactsListSkeleton: React.FC = () => {
-  const getItemLayout = useGetItemLayout();
-
   const data = useMemo(
     () => new Array(5).fill({ title: '*', data: new Array(5).fill({}) }),
     [],
   );
+
+  const renderSectionHeader = useCallback(
+    ({
+      section,
+    }: {
+      readonly section: SectionListData<Contact, ContactsGroup>;
+    }): React.ReactElement => {
+      return <SectionHeader section={section} />;
+    },
+    [],
+  );
+
+  const renderItem = useCallback((): React.ReactElement => {
+    return <ContactListItemSkeleton />;
+  }, []);
 
   return (
     <SectionList
@@ -19,13 +33,8 @@ const ContactsListSkeleton: React.FC = () => {
       scrollEnabled={false}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item, index) => `${item.id}-${index}`}
-      getItemLayout={getItemLayout}
-      renderSectionHeader={({ section }) => {
-        return <SectionHeader section={section} />;
-      }}
-      renderItem={() => {
-        return <ContactListItemSkeleton />;
-      }}
+      renderSectionHeader={renderSectionHeader}
+      renderItem={renderItem}
     />
   );
 };
