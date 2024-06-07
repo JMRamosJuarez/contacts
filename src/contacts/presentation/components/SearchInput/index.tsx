@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import ClearInputIcon from '@assets/svg/clear-input.svg';
 import SearchIcon from '@assets/svg/search.svg';
@@ -25,10 +25,6 @@ const ContactsSearchInput: React.FC = () => {
 
   const getContacts = useGetContactsAction();
 
-  useEffect(() => {
-    search({ query });
-  }, [query, search]);
-
   return (
     <View style={styles.container}>
       <SearchIcon style={styles.searchIcon} stroke={'gray'} />
@@ -39,7 +35,10 @@ const ContactsSearchInput: React.FC = () => {
         placeholder={'Search contacts'}
         placeholderTextColor={colors.primary['500']}
         value={query}
-        onChangeText={text => updateQuery(text)}
+        onChangeText={text => {
+          search({ query: text });
+          updateQuery(text);
+        }}
       />
       <TouchableOpacity
         disabled={query.length < 3}
