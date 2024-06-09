@@ -1,11 +1,11 @@
 import React from 'react';
 
-import ArrowLeftIcon from '@assets/svg/arrow-left.svg';
 import { styles } from '@contacts/presentation/components/ContactDetailHeader/styles';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { useAppTheme } from '@theme/index';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const ContactDetailHeader: React.FC<StackHeaderProps> = ({
   navigation: { goBack },
@@ -25,7 +25,11 @@ const ContactDetailHeader: React.FC<StackHeaderProps> = ({
         activeOpacity={0.7}
         onPress={goBack}
         style={styles.back}>
-        <ArrowLeftIcon fill={colors.primary['50']} />
+        <FeatherIcon
+          size={24}
+          name={'arrow-left'}
+          color={colors.primary['50']}
+        />
       </TouchableOpacity>
       <Text
         style={[styles.title, { color: colors.primary['50'] }]}

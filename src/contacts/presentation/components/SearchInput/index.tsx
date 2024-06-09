@@ -1,8 +1,5 @@
 import React, { useMemo, useRef } from 'react';
 
-import ClearInputIcon from '@assets/svg/clear-input.svg';
-import CloseIcon from '@assets/svg/close.svg';
-import SearchIcon from '@assets/svg/search.svg';
 import { styles } from '@contacts/presentation/components/SearchInput/styles';
 import {
   useClearSearchResultsAction,
@@ -14,6 +11,7 @@ import { useAppNavigation } from '@core/presentation/navigation/config';
 import { useAppTheme } from '@theme/index';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const PhoneNumbersSearchInput: React.FC = () => {
   const { top } = useSafeAreaInsets();
@@ -38,7 +36,12 @@ const PhoneNumbersSearchInput: React.FC = () => {
 
   return (
     <View style={[{ marginTop: top }, styles.container]}>
-      <SearchIcon style={styles.searchIcon} stroke={colors.primary['500']} />
+      <FeatherIcon
+        style={styles.searchIcon}
+        name={'search'}
+        size={24}
+        color={colors.primary['500']}
+      />
       <View
         style={[{ borderColor: colors.primary['50'] }, styles.subContainer]}>
         <TextInput
@@ -60,11 +63,15 @@ const PhoneNumbersSearchInput: React.FC = () => {
             input.current?.blur();
             clear();
           }}>
-          <ClearInputIcon stroke={'gray'} />
+          <FeatherIcon
+            size={16}
+            name="x-circle"
+            color={colors.primary['500']}
+          />
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.close} onPress={goBack}>
-        <CloseIcon stroke={colors.primary['500']} />
+        <FeatherIcon name={'x'} size={24} color={colors.primary['500']} />
       </TouchableOpacity>
     </View>
   );
