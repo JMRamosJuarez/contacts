@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import PhoneNumberListItem from '@contacts/presentation/components/PhoneNumberListItem';
+import SearchResultListItem from '@contacts/presentation/components/SearchResultListItem';
 import { useSerchPhoneNumbersResults } from '@contacts/presentation/redux/search/selectors';
 import { styles } from '@contacts/presentation/screens/Search/List/styles';
 import { useAppNavigation } from '@core/presentation/navigation/config';
@@ -15,7 +15,7 @@ const SearchResultsList: React.FC = () => {
   const renderItem = useCallback(
     ({ item }: { readonly item: PhoneNumber }): React.ReactElement => {
       return (
-        <PhoneNumberListItem
+        <SearchResultListItem
           phoneNumber={item}
           onPress={({ contact }) => navigate('ContactDetail', { contact })}
         />

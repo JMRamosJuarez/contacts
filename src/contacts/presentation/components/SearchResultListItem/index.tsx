@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { styles } from '@contacts/presentation/components/PhoneNumberListItem/styles';
+import { styles } from '@contacts/presentation/components/SearchResultListItem/styles';
 import PhoneNumber from '@native-modules/contacts/entities/phone_number';
 import { useAppTheme } from '@theme/index';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
-const PhoneNumberListItem: React.FC<{
+const SearchResultListItem: React.FC<{
   readonly phoneNumber: PhoneNumber;
   readonly onPress: (phoneNumber: PhoneNumber) => void;
 }> = ({ phoneNumber, onPress }) => {
@@ -37,4 +37,4 @@ const PhoneNumberListItem: React.FC<{
   );
 };
 
-export default PhoneNumberListItem;
+export default SearchResultListItem;

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { styles } from '@contacts/presentation/components/PhoneNumberListItemSkeleton/styles';
+import { styles } from '@contacts/presentation/components/SearchResultListItemSkeleton/styles';
 import Skeleton from '@core/presentation/components/Skeleton';
 import { useAppTheme } from '@theme/index';
 import { Image, View } from 'react-native';
 
-const PhoneNumberListItemSkeleton: React.FC = () => {
+const SearchResultListItemSkeleton: React.FC = () => {
   const { colors } = useAppTheme();
 
   return (
@@ -23,4 +23,4 @@ const PhoneNumberListItemSkeleton: React.FC = () => {
   );
 };
 
-export default PhoneNumberListItemSkeleton;
+export default SearchResultListItemSkeleton;
