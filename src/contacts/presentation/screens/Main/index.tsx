@@ -9,7 +9,7 @@ const ContactsScreen: React.FC = () => {
   const getContacts = useGetContactsAction();
 
   useEffect(() => {
-    getContacts({ page: 0, limit: 20 });
+    getContacts({ page: 0, limit: 25 });
   }, [getContacts]);
 
   const state = useContactsState();
@@ -18,8 +18,6 @@ const ContactsScreen: React.FC = () => {
     case 'waiting':
     case 'loading':
       return <ContactsListSkeleton />;
-    case 'empty':
-      return <></>;
     case 'success':
       return <ContactsList />;
     default:
