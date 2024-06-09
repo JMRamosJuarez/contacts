@@ -46,6 +46,7 @@ const PhoneNumbersSearchInput: React.FC = () => {
         style={[{ borderColor: colors.primary['50'] }, styles.subContainer]}>
         <TextInput
           style={[styles.input, { color: colors.primary['50'] }]}
+          autoFocus={true}
           blurOnSubmit
           returnKeyType={'search'}
           placeholder={'Search contacts'}

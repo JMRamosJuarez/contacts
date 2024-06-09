@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { styles } from '@contacts/presentation/components/SectionHeader/styles';
 import { useAppTheme } from '@theme/index';
 import { Text, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -13,13 +14,7 @@ const SectionHeader: React.FC<{
   return (
     <View
       style={[
-        {
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 12,
-          paddingHorizontal: 8,
-          marginVertical: 0.5,
-        },
+        styles.container,
         {
           backgroundColor: colors.primary['800'],
         },
@@ -28,16 +23,11 @@ const SectionHeader: React.FC<{
         size={24}
         name={icon}
         color={colors.primary['50']}
-        style={{ marginHorizontal: 8 }}
+        style={styles.icon}
       />
       <Text
         style={[
-          {
-            flex: 1,
-            fontSize: 16,
-            lineHeight: 24,
-            marginHorizontal: 8,
-          },
+          styles.title,
           {
             color: colors.primary['50'],
           },
