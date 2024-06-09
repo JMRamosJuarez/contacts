@@ -1,44 +1,52 @@
 import React, { useCallback } from 'react';
 
 import ContactListItem from '@contacts/presentation/components/ContactListItem';
-import SectionHeader from '@contacts/presentation/components/SectionHeader';
-import { useContacts } from '@contacts/presentation/redux/selectors';
-import Contact from '@native-modules/contacts/contact';
-import ContactsGroup from '@native-modules/contacts/group';
-import { SectionList, SectionListData } from 'react-native';
-
-export const ITEM_HEIGHT = 65;
-export const SECTION_HEADER_HEIGHT = 30;
+import PaginationItemSkeleton from '@contacts/presentation/components/PaginationItemSkeleton';
+import { useGetContactsPageAction } from '@contacts/presentation/redux/contacts/actions';
+import { useContacts } from '@contacts/presentation/redux/contacts/selectors';
+import { styles } from '@contacts/presentation/screens/Main/List/styles';
+import { useAppNavigation } from '@core/presentation/navigation/config';
+import Contact from '@native-modules/contacts/entities/contact';
+import { FlatList } from 'react-native';
 
 const ContactsList: React.FC = () => {
+  const { navigate } = useAppNavigation();
+
   const contacts = useContacts();
 
-  const renderSectionHeader = useCallback(
-    ({
-      section,
-    }: {
-      readonly section: SectionListData<Contact, ContactsGroup>;
-    }): React.ReactElement => {
-      return <SectionHeader section={section} />;
-    },
-    [],
-  );
+  const pagination = useGetContactsPageAction();
 
   const renderItem = useCallback(
     ({ item }: { readonly item: Contact }): React.ReactElement => {
-      return <ContactListItem contact={item} />;
+      return (
+        <ContactListItem
+          contact={item}
+          onPress={({ id }) => navigate('ContactDetail', { contactId: id })}
+        />
+      );
     },
-    [],
+    [navigate],
   );
 
+  const keyExtractor = useCallback((item: Contact) => {
+    return `${item.id}`;
+  }, []);
+
   return (
-    <SectionList
-      sections={contacts}
-      stickySectionHeadersEnabled
+    <FlatList
+      style={styles.container}
+      data={contacts}
+      initialNumToRender={25}
+      maxToRenderPerBatch={25}
+      getItemLayout={(_, index) => {
+        return { length: 65, offset: 65 * index, index };
+      }}
       showsVerticalScrollIndicator={false}
-      keyExtractor={(item, index) => `${item.id}-${index}`}
-      renderSectionHeader={renderSectionHeader}
+      keyExtractor={keyExtractor}
       renderItem={renderItem}
+      onEndReachedThreshold={0.25}
+      onEndReached={pagination}
+      ListFooterComponent={PaginationItemSkeleton}
     />
   );
 };

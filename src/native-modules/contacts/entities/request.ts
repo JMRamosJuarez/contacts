@@ -1,5 +1,6 @@
 type ContactsRequest = {
-  readonly query?: string;
+  readonly page: number;
+  readonly limit: number;
 };
 
 export default ContactsRequest;

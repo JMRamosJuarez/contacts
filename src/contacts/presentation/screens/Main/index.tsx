@@ -1,26 +1,30 @@
 import React, { useEffect } from 'react';
 
-import ContactsSearchInput from '@contacts/presentation/components/SearchInput';
-import { useGetContactsAction } from '@contacts/presentation/redux/actions';
-import ContactsPage from '@contacts/presentation/screens/Main/Page';
-import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useGetContactsAction } from '@contacts/presentation/redux/contacts/actions';
+import { useContactsState } from '@contacts/presentation/redux/contacts/selectors';
+import ContactsList from '@contacts/presentation/screens/Main/List';
+import ContactsListSkeleton from '@contacts/presentation/screens/Main/Skeleton';
 
 const ContactsScreen: React.FC = () => {
-  const { top } = useSafeAreaInsets();
-
   const getContacts = useGetContactsAction();
 
   useEffect(() => {
-    getContacts({});
+    getContacts({ page: 0, limit: 20 });
   }, [getContacts]);
 
-  return (
-    <View style={{ paddingTop: top }}>
-      <ContactsSearchInput />
-      <ContactsPage />
-    </View>
-  );
+  const state = useContactsState();
+
+  switch (state) {
+    case 'waiting':
+    case 'loading':
+      return <ContactsListSkeleton />;
+    case 'empty':
+      return <></>;
+    case 'success':
+      return <ContactsList />;
+    default:
+      return <></>;
+  }
 };
 
 export default ContactsScreen;

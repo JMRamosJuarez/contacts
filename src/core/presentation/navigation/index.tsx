@@ -1,7 +1,10 @@
 import React from 'react';
 
+import ContactsHeader from '@contacts/presentation/components/ContactsHeader';
+import PhoneNumbersSearchInput from '@contacts/presentation/components/SearchInput';
 import ContactDetailScreen from '@contacts/presentation/screens/Detail';
 import ContactsScreen from '@contacts/presentation/screens/Main';
+import SearchPhoneNumbersScreen from '@contacts/presentation/screens/Search';
 import { AppNavigationStack } from '@core/presentation/navigation/config';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators } from '@react-navigation/stack';
@@ -21,14 +24,27 @@ const AppNavigator: React.FC = () => {
       <AppNavigationStack.Navigator
         initialRouteName={'Main'}
         screenOptions={{
-          headerShown: false,
           cardStyleInterpolator: ({ current }) => ({
             cardStyle: {
               opacity: current.progress,
             },
           }),
         }}>
-        <AppNavigationStack.Screen name={'Main'} component={ContactsScreen} />
+        <AppNavigationStack.Screen
+          name={'Main'}
+          options={{
+            header: ContactsHeader,
+          }}
+          component={ContactsScreen}
+        />
+        <AppNavigationStack.Screen
+          name={'Search'}
+          options={{
+            header: PhoneNumbersSearchInput,
+            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          }}
+          component={SearchPhoneNumbersScreen}
+        />
         <AppNavigationStack.Screen
           name={'ContactDetail'}
           options={{

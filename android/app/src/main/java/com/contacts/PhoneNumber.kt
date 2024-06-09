@@ -3,13 +3,13 @@ package com.contacts
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap
 
-data class Contact (val id: Int, val name: String, val photo: String?) {
+data class PhoneNumber (val id: Int, val phone: String, val contact: Contact) {
 
     fun toWritableMap(): WritableMap {
         return Arguments.createMap().apply {
             putInt("id", id)
-            putString("name", name)
-            putString("photo", photo)
+            putString("phone", phone)
+            putMap("contact", contact.toWritableMap())
         }
     }
 }

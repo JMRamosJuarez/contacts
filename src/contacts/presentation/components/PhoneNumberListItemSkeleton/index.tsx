@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { styles } from '@contacts/presentation/components/ContactListItemSkeleton/styles';
+import { styles } from '@contacts/presentation/components/PhoneNumberListItemSkeleton/styles';
 import Skeleton from '@core/presentation/components/Skeleton';
 import { useAppTheme } from '@theme/index';
 import { Image, View } from 'react-native';
 
-const ContactListItemSkeleton: React.FC = () => {
+const PhoneNumberListItemSkeleton: React.FC = () => {
   const { colors } = useAppTheme();
 
   return (
@@ -15,9 +15,12 @@ const ContactListItemSkeleton: React.FC = () => {
         style={styles.img}
         source={require('@assets/imgs/contact-placeholder.png')}
       />
-      <Skeleton width={220} height={16} style={styles.skeleton} />
+      <View style={styles.data}>
+        <Skeleton width={220} height={16} style={styles.name} />
+        <Skeleton width={100} height={14} style={styles.phone} />
+      </View>
     </View>
   );
 };
 
-export default ContactListItemSkeleton;
+export default PhoneNumberListItemSkeleton;

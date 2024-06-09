@@ -1,17 +1,20 @@
-import React, { memo } from 'react';
+import React from 'react';
 
 import { styles } from '@contacts/presentation/components/ContactListItem/styles';
-import Contact from '@native-modules/contacts/contact';
+import Contact from '@native-modules/contacts/entities/contact';
 import { useAppTheme } from '@theme/index';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity } from 'react-native';
 
-const Component: React.FC<{
+const ContactListItem: React.FC<{
   readonly contact: Contact;
-}> = ({ contact }) => {
+  readonly onPress: (contact: Contact) => void;
+}> = ({ contact, onPress }) => {
   const { colors } = useAppTheme();
 
   return (
-    <View
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={() => onPress(contact)}
       style={[styles.container, { backgroundColor: colors.primary['800'] }]}>
       <Image
         style={styles.img}
@@ -22,20 +25,11 @@ const Component: React.FC<{
         }
         defaultSource={require('@assets/imgs/contact-placeholder.png')}
       />
-      <View style={styles.data}>
-        <Text style={[styles.name, { color: colors.primary['50'] }]}>
-          {contact.name}
-        </Text>
-        {contact.phones.length > 0 && (
-          <Text style={[styles.phone, { color: colors.primary['50'] }]}>
-            {contact.phones[0]}
-          </Text>
-        )}
-      </View>
-    </View>
+      <Text style={[styles.name, { color: colors.primary['50'] }]}>
+        {contact.name}
+      </Text>
+    </TouchableOpacity>
   );
 };
-
-const ContactListItem = memo(Component);
 
 export default ContactListItem;
