@@ -3,6 +3,7 @@
  */
 
 import 'react-native-gesture-handler';
+import '@localization/index';
 
 import { AppRegistry } from 'react-native';
 

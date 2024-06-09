@@ -9,12 +9,15 @@ import {
 import { useSearchInputValue } from '@contacts/presentation/redux/search/selectors';
 import { useAppNavigation } from '@core/presentation/navigation/config';
 import { useAppTheme } from '@theme/index';
+import { useTranslation } from 'react-i18next';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const PhoneNumbersSearchInput: React.FC = () => {
   const { top } = useSafeAreaInsets();
+
+  const { t } = useTranslation();
 
   const { colors } = useAppTheme();
 
@@ -49,7 +52,7 @@ const PhoneNumbersSearchInput: React.FC = () => {
           autoFocus={true}
           blurOnSubmit
           returnKeyType={'search'}
-          placeholder={'Search contacts'}
+          placeholder={t('search_contacts')}
           placeholderTextColor={colors.primary['500']}
           value={query}
           onChangeText={text => {
