@@ -6,6 +6,8 @@ import { NativeModules } from 'react-native';
 const { ContactsModule } = NativeModules;
 
 interface ContactsInterface {
+  getContact(request: { readonly contactId: number }): Promise<Contact>;
+
   getContacts(request: ContactsRequest): Promise<Contact[]>;
 
   getPhoneNumbers(request: {

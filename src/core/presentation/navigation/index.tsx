@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ContactDetailHeader from '@contacts/presentation/components/ContactDetailHeader';
 import ContactsHeader from '@contacts/presentation/components/ContactsHeader';
 import PhoneNumbersSearchInput from '@contacts/presentation/components/SearchInput';
 import ContactDetailScreen from '@contacts/presentation/screens/Detail';
@@ -47,9 +48,15 @@ const AppNavigator: React.FC = () => {
         />
         <AppNavigationStack.Screen
           name={'ContactDetail'}
-          options={{
+          options={({
+            route: {
+              params: { contact },
+            },
+          }) => ({
+            title: contact.name,
+            header: ContactDetailHeader,
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
+          })}
           component={ContactDetailScreen}
         />
       </AppNavigationStack.Navigator>

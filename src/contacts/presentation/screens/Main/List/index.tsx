@@ -21,7 +21,7 @@ const ContactsList: React.FC = () => {
       return (
         <ContactListItem
           contact={item}
-          onPress={({ id }) => navigate('ContactDetail', { contactId: id })}
+          onPress={contact => navigate('ContactDetail', { contact })}
         />
       );
     },

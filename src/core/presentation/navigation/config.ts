@@ -1,3 +1,4 @@
+import Contact from '@native-modules/contacts/entities/contact';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import {
   StackNavigationProp,
@@ -7,7 +8,7 @@ import {
 export type AppStackParams = {
   Main: undefined;
   Search: undefined;
-  ContactDetail: { readonly contactId: number };
+  ContactDetail: { readonly contact: Contact };
 };
 
 export type ContactDetailRouteProp = RouteProp<AppStackParams, 'ContactDetail'>;

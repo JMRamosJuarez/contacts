@@ -37,6 +37,24 @@ export const CONTACT_PERMISSIONS = Platform.select({
 //   return groups;
 // };
 
+export const getContact = async (contactId: number) => {
+  const status = await checkPermissions(CONTACT_PERMISSIONS);
+  switch (status) {
+    case 'granted': {
+      return await ContactsModule.getContact({ contactId });
+    }
+    case 'denied': {
+      const result = await requestPermissions(CONTACT_PERMISSIONS);
+      if (result === 'granted') {
+        return await ContactsModule.getContact({ contactId });
+      }
+      throw new AppError(AppErrorType.PERMISSION_DENIED);
+    }
+    default:
+      throw new AppError(AppErrorType.PERMISSION_DENIED);
+  }
+};
+
 export const getContacts = async (request: ContactsRequest) => {
   const status = await checkPermissions(CONTACT_PERMISSIONS);
   switch (status) {

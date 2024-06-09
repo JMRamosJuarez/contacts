@@ -35,6 +35,46 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
     }
 
     @ReactMethod
+    fun getContact(request: ReadableMap, promise: Promise) {
+        try {
+
+            val contactId = request.getInt("contactId")
+
+            val contactsCursor = this.context.contentResolver.query(
+                    ContactsContract.Contacts.CONTENT_URI,
+                    this.contactsProjection,
+                    "${ContactsContract.Contacts._ID} = ?",
+                    arrayOf("$contactId"),
+                    null
+            )
+
+            var contact: Contact? = null
+
+            contactsCursor?.use { cursor ->
+                val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
+                val photoUriIndex = cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)
+                val nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+
+                while (cursor.moveToNext()) {
+                    val id = cursor.getInt(idIndex)
+                    val name = cursor.getString(nameIndex)
+                    val photo = cursor.getString(photoUriIndex)
+                    contact = Contact(id, name, photo)
+                }
+            }
+
+            contact?.let {
+                promise.resolve(it)
+            } ?: run {
+                promise.reject("contact-not-found", Exception("Contact not found"))
+            }
+
+        } catch (e: Exception) {
+            promise.reject(e)
+        }
+    }
+
+    @ReactMethod
     fun getContacts(request: ReadableMap, promise: Promise) {
         try {
 
@@ -70,7 +110,7 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
 
             promise.resolve(contacts)
         } catch (e: Exception) {
-            promise.reject(e)
+            promise.reject("query-error", e)
         }
     }
 
@@ -93,7 +133,7 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
             promise.resolve(phones)
 
         } catch (e: Exception) {
-            promise.reject(e)
+            promise.reject("query-error", e)
         }
     }
 
@@ -115,7 +155,7 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
             promise.resolve(phones)
 
         } catch (e: Exception) {
-            promise.reject(e)
+            promise.reject("query-error", e)
         }
     }
 

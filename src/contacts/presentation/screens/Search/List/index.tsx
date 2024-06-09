@@ -17,9 +17,7 @@ const SearchResultsList: React.FC = () => {
       return (
         <PhoneNumberListItem
           phoneNumber={item}
-          onPress={({ contact: { id } }) =>
-            navigate('ContactDetail', { contactId: id })
-          }
+          onPress={({ contact }) => navigate('ContactDetail', { contact })}
         />
       );
     },
