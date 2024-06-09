@@ -10,6 +10,7 @@ const PhoneNumberListItemSkeleton: React.FC = () => {
   return (
     <View
       style={[{ backgroundColor: colors.secondary['900'] }, styles.container]}>
+      <Skeleton width={150} height={16} style={styles.skeleton} />
       <Skeleton width={200} height={14} style={styles.skeleton} />
     </View>
   );

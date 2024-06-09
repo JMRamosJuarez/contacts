@@ -18,6 +18,7 @@ const SearchResultListItemSkeleton: React.FC = () => {
       <View style={styles.data}>
         <Skeleton width={220} height={16} style={styles.name} />
         <Skeleton width={100} height={14} style={styles.phone} />
+        <Skeleton width={120} height={14} style={styles.phone} />
       </View>
     </View>
   );

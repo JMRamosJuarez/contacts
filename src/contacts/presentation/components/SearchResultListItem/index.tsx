@@ -3,6 +3,7 @@ import React from 'react';
 import { styles } from '@contacts/presentation/components/SearchResultListItem/styles';
 import PhoneNumber from '@native-modules/contacts/entities/phone_number';
 import { useAppTheme } from '@theme/index';
+import { Trans } from 'react-i18next';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 const SearchResultListItem: React.FC<{
@@ -31,6 +32,15 @@ const SearchResultListItem: React.FC<{
         </Text>
         <Text style={[styles.phone, { color: colors.primary['50'] }]}>
           {phoneNumber.phone}
+        </Text>
+        <Text style={[styles.account, { color: colors.primary['50'] }]}>
+          <Trans
+            i18nKey={'account'}
+            components={{
+              bold: <Text style={styles.bold} />,
+            }}
+            values={{ account: phoneNumber.account }}
+          />
         </Text>
       </View>
     </TouchableOpacity>

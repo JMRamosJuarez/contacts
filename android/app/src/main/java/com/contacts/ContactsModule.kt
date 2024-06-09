@@ -23,7 +23,8 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
     private val phonesProjection: Array<out String> by lazy {
         arrayOf(
                 ContactsContract.CommonDataKinds.Phone._ID,
-                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER,
+                ContactsContract.CommonDataKinds.Phone.ACCOUNT_TYPE_AND_DATA_SET,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.PHOTO_URI,
@@ -145,7 +146,7 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
             val phonesCursor = this.context.contentResolver.query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                     this.phonesProjection,
-                    "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ? OR ${ContactsContract.CommonDataKinds.Phone.NUMBER} LIKE ?",
+                    "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ? OR ${ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER} LIKE ?",
                     arrayOf("%${query}%", "%${query}%"),
                     "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} ASC"
             )
@@ -165,7 +166,8 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
         phonesCursor?.use { cursor ->
 
             val idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID)
-            val phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+            val phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER)
+            val accountIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.ACCOUNT_TYPE_AND_DATA_SET)
 
             val contactIdIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
             val displayNameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
@@ -181,8 +183,9 @@ class ContactsModule(private val context: ReactApplicationContext): ReactContext
 
                 val phoneId = cursor.getInt(idIndex)
                 val phoneNumber = cursor.getString(phoneIndex)
+                val account = cursor.getString(accountIndex)
 
-                val phone = PhoneNumber(phoneId, phoneNumber, contact)
+                val phone = PhoneNumber(phoneId, account, phoneNumber, contact)
                 phones.pushMap(phone.toWritableMap())
             }
         }
