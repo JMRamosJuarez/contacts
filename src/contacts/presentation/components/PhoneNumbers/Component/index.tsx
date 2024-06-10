@@ -1,5 +1,7 @@
 import React from 'react';
 
+import EmptyPhoneNumbers from '@contacts/presentation/components/PhoneNumbers/Empty';
+import PhoneNumbersError from '@contacts/presentation/components/PhoneNumbers/Error';
 import PhoneNumbersList from '@contacts/presentation/components/PhoneNumbers/List';
 import PhoneNumbersListSkeleton from '@contacts/presentation/components/PhoneNumbers/Skeleton';
 import { usePhoneNumbersState } from '@contacts/presentation/redux/details/selectors/phone_numbers';
@@ -13,10 +15,12 @@ const PhoneNumbersComponent: React.FC<{
     case 'waiting':
     case 'loading':
       return <PhoneNumbersListSkeleton />;
+    case 'empty':
+      return <EmptyPhoneNumbers />;
     case 'success':
       return <PhoneNumbersList contact={contact} />;
     default:
-      return <></>;
+      return <PhoneNumbersError contact={contact} />;
   }
 };
 
