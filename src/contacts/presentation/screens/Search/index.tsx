@@ -17,6 +17,8 @@ const SearchPhoneNumbersScreen: React.FC = () => {
   }, [clear]);
 
   switch (state) {
+    case 'waiting':
+      return <></>;
     case 'loading':
       return <SearchResultsSkeleton />;
     case 'success':
