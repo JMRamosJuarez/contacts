@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 
 import { useClearSearchResultsAction } from '@contacts/presentation/redux/search/actions';
 import { useSearchPhoneNumbersState } from '@contacts/presentation/redux/search/selectors';
+import EmptySearchResults from '@contacts/presentation/screens/Search/Empty';
+import SearchContactsError from '@contacts/presentation/screens/Search/Error';
 import SearchResultsList from '@contacts/presentation/screens/Search/List';
 import SearchResultsSkeleton from '@contacts/presentation/screens/Search/Skeleton';
 
@@ -19,8 +21,10 @@ const SearchPhoneNumbersScreen: React.FC = () => {
       return <SearchResultsSkeleton />;
     case 'success':
       return <SearchResultsList />;
+    case 'empty':
+      return <EmptySearchResults />;
     default:
-      return <></>;
+      return <SearchContactsError />;
   }
 };
 

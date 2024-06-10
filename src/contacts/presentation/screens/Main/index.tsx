@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 
 import { useGetContactsAction } from '@contacts/presentation/redux/contacts/actions';
 import { useContactsState } from '@contacts/presentation/redux/contacts/selectors';
+import EmptyContacts from '@contacts/presentation/screens/Main/Empty';
+import ContactsError from '@contacts/presentation/screens/Main/Error';
 import ContactsList from '@contacts/presentation/screens/Main/List';
 import ContactsListSkeleton from '@contacts/presentation/screens/Main/Skeleton';
 
@@ -18,10 +20,12 @@ const ContactsScreen: React.FC = () => {
     case 'waiting':
     case 'loading':
       return <ContactsListSkeleton />;
+    case 'empty':
+      return <EmptyContacts />;
     case 'success':
       return <ContactsList />;
     default:
-      return <></>;
+      return <ContactsError />;
   }
 };
 
